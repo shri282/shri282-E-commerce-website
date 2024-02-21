@@ -15,7 +15,6 @@ function Register() {
      password : null
   });
 
-  const [error, setError] = useState(null);
 
   const registerFormHandler = (event) => {
     setUser(prevState => {
@@ -31,7 +30,7 @@ function Register() {
 
       alert("registered");
       const contextUser = {
-        username : user.name,
+        name : user.name,
         password : user.password
       };
       localStorage.setItem("currentUser",JSON.stringify(contextUser));
@@ -39,7 +38,6 @@ function Register() {
       navigate('/');
 
     }).catch(error => {
-      console.log(JSON.stringify(user));
       alert(error);  
     });
 
@@ -63,11 +61,6 @@ function Register() {
 
         </div>
 
-        <div>
-          {
-            error && JSON.stringify(error)
-          }
-        </div>
     </div>
     
 

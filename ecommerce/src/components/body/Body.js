@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Cards from '../../ui-components/cards'
 import axios from 'axios';
 import '../body/body.scss'
 import contextProvider from '../../contextProvide';

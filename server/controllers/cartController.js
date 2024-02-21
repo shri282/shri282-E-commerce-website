@@ -8,6 +8,7 @@ const postCart = async (req,res) => {
        const result = await query(sql,params);
        res.send(result);
     } catch (error) {
+      console.log(error);
        res.sent(error);
     }
 }
@@ -19,6 +20,7 @@ const getUserCart = async (req,res) => {
         const result = await query(sql,params);
         res.send(result);
      } catch (error) {
+        console.log(error);
         res.sent(error);
      }
 }

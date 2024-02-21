@@ -14,7 +14,6 @@ const getProducts = async (req,res) => {
 const getProduct = async (req,res) => {
     try {
         const sql = "select * from products where prod_id = $1";
-        console.log(parseInt(req.query.id));
         const params = [parseInt(req.query.id)];
         const result = await query(sql,params);
         res.send(result.rows);
@@ -60,10 +59,7 @@ const putProduct = async (req,res) => {
 
 const getProductsByQuery = async (req,res) => {
     try {
-        console.log(req.query.category);
-        console.log(req.query.query);
         const sql = `select * from products where ${req.query.category} ilike $1`
-        console.log(sql);
         const params = ["%" +req.query.query +"%"];
         const result = await query(sql,params);
         res.send(result);
@@ -76,17 +72,30 @@ const getProductsByQuery = async (req,res) => {
 
 const getSlideProducts = async (req,res) => {
     try {
-        console.log(req.query.category);
-        console.log(req.query.query);
         const sql = `select * from products order by prize asc limit 3`
-        console.log(sql);
         const result = await query(sql,[]);
-        console.log(result);
         res.send(result);
     } catch (error) {
       console.log(error);
       res.send(error); 
     } 
+}
+
+
+const getByProdIds = async (req,res) => {
+    try {
+        console.log(req);
+        const prodIds  = JSON.parse(req.query.prodIds);
+        const placeHolder = prodIds.length > 0 ? prodIds.map(data => data).join(',') : "-1";
+        const sql = `select * from products where prod_id IN (${placeHolder})`;
+        console.log("in server getByProdIds ", sql);
+        const result = await query(sql,[]);
+        console.log(result);
+        res.send(result);
+    } catch (error) {
+        console.log(error);
+        res.sent(error);
+    }
 }
 
 
@@ -97,7 +106,8 @@ module.exports.sql = {
     postProduct : postProduct,
     putProduct : putProduct,
     getProductsByQuery : getProductsByQuery,
-    getSlideProducts : getSlideProducts
+    getSlideProducts : getSlideProducts,
+    getByProdIds : getByProdIds
 }
 
 

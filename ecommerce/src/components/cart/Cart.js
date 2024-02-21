@@ -13,7 +13,6 @@ function Cart() {
 
        console.log(" in useeffect of cart");
 
-       setTimeout(() => {
 
         axios.get('http://localhost:8080/cart/usercart',{
             params : {
@@ -21,41 +20,40 @@ function Cart() {
             }
            }).then(async result => {
                console.log(result);
-               const prodIds = result.data.rows.map(data => data.prod_id);
-               try {
-                  const products = await getProductsById(prodIds);
-                  console.log(products.data.rows);
-                  setcartData(prevData => {
-                    return {
-                        ...prevData,
-                        data : products.data.rows
+               const prodIds = result.data.rows.map(data => data.prod_id); 
+               axios.get('http://localhost:8080/products/getbyids',{
+                    params : {
+                        prodIds : JSON.stringify(prodIds)
                     }
-                  });
-               }catch (error) {
+                }).then(result => {
+                    console.log("in cart result  " ,result.data);
+                    setcartData(prevData => {
+                        return {
+                            ...prevData,
+                            data : result.data.rows
+                        }
+                    });
+                }).catch(error => {
+                    console.log("in cart error  " ,error);
                     setcartData(prevData => {
                         return {
                             ...prevData,
                             error : error.message
                         }
                     });
-               }
+                })
+
+           }).catch(error => {
+            setcartData(prevData => {
+                            return {
+                                ...prevData,
+                                error : error.message
+                            }
+                        });
            })
-
-       },2000);
-
-       
 
     },[])
 
-    const getProductsById = async (prodIds) => {
-       const prods = await axios.get('http://localhost:8080/products/getbyids',{
-        params : {
-            prodIds : prodIds
-        }
-       });
-
-       return prods;
-    }
 
 
   return (

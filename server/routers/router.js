@@ -11,6 +11,7 @@ Router.put('/product', prodController.sql.putProduct);
 Router.delete('/product', prodController.sql.deleteProduct);
 Router.get('/products/getbyquery',prodController.sql.getProductsByQuery);
 Router.get('/products/slide',prodController.sql.getSlideProducts);
+Router.get('/products/getbyids',prodController.sql.getByProdIds);
 
 // user
 
@@ -18,7 +19,6 @@ Router.get('/users', userController.sql.getUsers);
 Router.post('/user', userController.sql.postUser);
 Router.get('/user/getbyusername',userController.sql.getByUserName);
 Router.put('/user/updatecart',userController.sql.updateUserCart);
-Router.get('/products/getbyids',userController.sql.getByProdIds);
 
 // cart
 
