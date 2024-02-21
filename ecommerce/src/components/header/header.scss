@@ -1,0 +1,90 @@
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:rgb(193, 187, 187);
+    color: white;
+    padding: 2px;
+    margin-bottom: 0px;
+  }
+  
+  .logo img {
+    width: 90px; /* Adjust width as needed */
+    height: 50px;
+  }
+  
+  .search {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .search input {
+    margin-right: 10px;
+    padding: 8px;
+    width: 450px;
+  }
+
+  
+  
+  .others {
+    display: flex;
+    align-items: center;
+    
+  }
+  
+  .others div {
+    margin-left: 10px;
+    line-height: 0%;
+    text-align: left;
+    color: gray;
+  }
+
+  .others div .account {
+     color: black;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    padding-right: 0px;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 2px;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  /* Show the dropdown content when hovering over the dropdown button */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .loggedin {
+    display: flex;
+    align-items: center;
+  }
+
+  .loggedout {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 30px;
+  }
+
+
+
+  
+  
+
