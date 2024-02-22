@@ -2,10 +2,12 @@ import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 function SelectUi(props) {
+
+
   return (
 
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-select-small-label">Categories</InputLabel>
+        <InputLabel id="demo-select-small-label" >Type</InputLabel>
         <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
@@ -20,6 +22,7 @@ function SelectUi(props) {
         <MenuItem className="menu-item" value={"type"}>Type</MenuItem>
         </Select>
     </FormControl>
+
    
   );
 }

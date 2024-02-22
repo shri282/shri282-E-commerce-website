@@ -8,6 +8,7 @@ import Register from './components/register/Register';
 import React from 'react'
 import Cart from './components/cart/Cart.js';
 import BuyProducts from './components/BuyProducts/BuyProducts.js';
+import ProductsPage from './components/productsPage/ProductsPage.js';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
               <Route path='myorders' element={<MyOrder />} />
               <Route path='cart' element={<Cart />} />
               <Route path='buyproducts' element={<BuyProducts />} />
+              <Route path='productspage/:category' element={<ProductsPage />} />
             </Route>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />

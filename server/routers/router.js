@@ -12,6 +12,7 @@ Router.delete('/product', prodController.sql.deleteProduct);
 Router.get('/products/getbyquery',prodController.sql.getProductsByQuery);
 Router.get('/products/slide',prodController.sql.getSlideProducts);
 Router.get('/products/getbyids',prodController.sql.getByProdIds);
+Router.get('/products/getbycategory',prodController.sql.getByCategory);
 
 // user
 

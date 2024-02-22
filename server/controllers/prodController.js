@@ -99,6 +99,21 @@ const getByProdIds = async (req,res) => {
 }
 
 
+const getByCategory = async (req,res) => {
+    try {
+        const sql = `select * from products where category ilike $1`;
+        const params = [req.query.category];
+        console.log("in prod categ " ,sql, params);
+        const result = await query(sql,params);
+        console.log("in prod categ " , result);
+        res.send(result.rows);
+    } catch (error) {
+        console.log(error);
+        res.sent(error);
+    }
+}
+
+
 module.exports.sql = {
     getProducts : getProducts,
     getProduct : getProduct,
@@ -107,7 +122,8 @@ module.exports.sql = {
     putProduct : putProduct,
     getProductsByQuery : getProductsByQuery,
     getSlideProducts : getSlideProducts,
-    getByProdIds : getByProdIds
+    getByProdIds : getByProdIds,
+    getByCategory : getByCategory
 }
 
 

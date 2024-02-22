@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import '../body/body.scss'
+import '../body/body.scss';
+import { useNavigate } from 'react-router-dom';
 
 function Body() {
+
+    const navigate = useNavigate();
 
     const [cardData,setCards] = useState({
       data : [],
@@ -40,10 +43,23 @@ function Body() {
       }  
     }
 
+    const getOneFromEach = () => {
+      const prods = [];
+      const category = new Set(cardData.data.map(data => data.category.toLowerCase()));
+      category.forEach(cat => {
+        prods.push(cardData.data.filter(data => data.category.toLowerCase() === cat)[0]);
+      })
+      return prods;
+    }
+
+
+    const productHandler = (Category) => {
+      localStorage.getItem('currentUser') ? navigate('productspage/'+Category) : navigate('/login');
+    }
+
     useEffect(() => {
 
         axios.get('http://localhost:8080/products').then(result => {
-              console.log("card data fetched successfully : " +result);
               setCards(prevdata => {
                 return {
                   ...prevdata,
@@ -51,7 +67,6 @@ function Body() {
                 }
               });
          }).catch(error => {
-            console.log("error while fetching : " +error);
             setCards(prevdata => {
               return {
                 ...prevdata,
@@ -73,7 +88,6 @@ function Body() {
           }
         });
       }).catch(error => {
-        console.log("error while fetching : " +error);
         setslideData(prevdata => {
           return {
             data : prevdata.data,
@@ -119,9 +133,9 @@ function Body() {
           
           <div className='cards'>
             {
-              !cardData.error && cardData.data.length > 0 && cardData.data.map(data => {
+              !cardData.error && cardData.data.length > 0 && getOneFromEach().map(data => {
                 console.log(data);
-                return <div className='productSlider'>
+                return <div className='productSlider' onClick={() => productHandler(data.category)}>
                         
                     <div className='prodimg'>
                       <img src={data.image_path} alt=''></img>

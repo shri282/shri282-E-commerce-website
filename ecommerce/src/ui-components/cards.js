@@ -26,7 +26,8 @@ function Cards(props) {
     }).then(res => {
       alert("product successfully added to cart " +res.data);
     }).catch(err => {
-      alert("in error " +err.message);
+      console.log(err);
+      alert(err.response.data.message);
     })
 
   }
@@ -41,47 +42,42 @@ function Cards(props) {
   }
 
   return (
-    <Card sx={{ maxWidth: 325, maxHeight : 950 }}>
-    <CardMedia
-      sx={{  height: 290,
-        width: '100%',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-         }}
-      image= {props.cardObj.image_path.replace(/\\/g, '/')}
-      title="green iguana"
-    />
-    <CardContent>
-        {console.log(props)}
-      <Typography gutterBottom variant="h5" component="div">
-        {props.cardObj.prod_name}
-      </Typography>
-      <Typography sx={{width : "180px", textAlign:"justify",wordSpacing:"0px",paddingBottom:"10px" }} variant="body2" color="text.secondary">
-       {props.cardObj.description.substring(0,100)}
-      </Typography>
-      <div style={{textAlign:"left"}}>
-            <Typography variant="body2" color="text.secondary">
-            <span style={{fontSize:"bolder",fontWeight:"bold"}}>Prize :</span>  {props.cardObj.prize}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-            <span style={{fontSize:"bolder",fontWeight:"bold"}}>Availablity :</span> {props.cardObj.availability}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-            <span style={{fontSize:"bolder",fontWeight:"bold"}}>Offer :</span> {props.cardObj.offer}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-            <span style={{fontSize:"bolder",fontWeight:"bold"}}>Stock :</span> {props.cardObj.stock}
-            </Typography>
-      </div>
-      
-    </CardContent>
-    <CardActions>
-      <Button size="small" onClick={shopHandler}>Shop</Button>
-      {
-        !props.isCart && <Button size="small" onClick={cartHandler}>Add To Cart</Button>
-      }
-      
-    </CardActions>
+    <Card sx={{ maxWidth: 325, maxHeight : 950, margin: "10px", minWidth:200, cursor: 'pointer' }} onClick={shopHandler}>
+      <CardMedia
+        sx={{  height: 290,
+          width: '100%',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          }}
+        image= {props.cardObj.image_path.replace(/\\/g, '/')}
+        title="green iguana"
+      />
+      <CardContent>
+          {console.log(props)}
+        <Typography gutterBottom variant="h6" component="div">
+          {props.cardObj.prod_name}
+        </Typography>
+        <div style={{textAlign:"left"}}>
+              <Typography variant="body2" color="text.secondary">
+              <span style={{fontSize:"bolder",fontWeight:"bold"}}>Prize :</span>  {props.cardObj.prize}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+              <span style={{fontSize:"bolder",fontWeight:"bold"}}>Availablity :</span> {props.cardObj.availability}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+              <span style={{fontSize:"bolder",fontWeight:"bold"}}>Offer :</span> {props.cardObj.offer}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+              <span style={{fontSize:"bolder",fontWeight:"bold"}}>Stock :</span> {props.cardObj.stock}
+              </Typography>
+        </div>
+        
+      </CardContent>
+      <CardActions>
+        {
+          !props.isCart && <Button sx={{width:"100%"}} variant="contained" size="small" onClick={cartHandler}>Add To Cart</Button>
+        }
+      </CardActions>
   </Card>
   )
 }

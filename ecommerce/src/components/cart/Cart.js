@@ -59,7 +59,7 @@ function Cart() {
 
   return (
     <div>
-        <h1>Cart Products</h1>
+        
 
         <div>
        
@@ -73,14 +73,20 @@ function Cart() {
       
         </div>
 
+        <div className='card-continer'>
+          <div className='card-header'>
+          <h1>Cart Products</h1>
+          </div>
+          
+          <div className='cards'>
+            {
+                !cartData.error && cartData.data.length > 0 && cartData.data.map(data => {
+                   return <Cards key={data.prod_id} cardObj = {data} isCart={true}></Cards>
+                })
+            }
+         </div>
 
-        <div className='cards'>
-                {
-                    !cartData.error && cartData.data.map(data => {
-                        return <Cards key={data.prod_id} cardObj = {data} isCart={true}></Cards>
-                    })
-                }
-        </div>
+      </div>
         
         
     </div>
