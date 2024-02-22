@@ -13,7 +13,7 @@ function Cards(props) {
 
   const navigate = useNavigate();
 
-  const cartHandler = () => {
+  const addCartHandler = () => {
 
     if(!localStorage.getItem('currentUser')) {
       navigate('/login');
@@ -27,19 +27,47 @@ function Cards(props) {
       alert("product successfully added to cart " +res.data);
     }).catch(err => {
       console.log(err);
-      alert(err.response.data.message);
+      alert(err.response.data);
     })
 
   }
 
-  const shopHandler = () => {
+
+  const removeCartHandler = () => {
+
     if(!localStorage.getItem('currentUser')) {
       navigate('/login');
       return;
     }
+
+    axios.delete('http://localhost:8080/cart/delete',{
+      params : {
+        user_id : JSON.parse(localStorage.getItem('currentUser')).user_id,
+        prod_id : props.cardObj.prod_id
+      }
+    }).then(result => {
+       alert('card item removed successfully ',JSON.stringify(result));
+       window.location.reload();
+    }).catch(error => {
+       alert('error while removing cart ',error.message);
+    });
     
-    navigate('/buyproducts');
+
   }
+
+  const shopHandler = (event) => {
+    if (event.target.tagName.toLowerCase() === 'button') {
+      return;
+    }else if(!localStorage.getItem('currentUser')) {
+      navigate('/login');
+      return;
+    }
+   
+    navigate('/buyproducts');
+
+  }
+
+
 
   return (
     <Card sx={{ maxWidth: 325, maxHeight : 950, margin: "10px", minWidth:200, cursor: 'pointer' }} onClick={shopHandler}>
@@ -75,7 +103,10 @@ function Cards(props) {
       </CardContent>
       <CardActions>
         {
-          !props.isCart && <Button sx={{width:"100%"}} variant="contained" size="small" onClick={cartHandler}>Add To Cart</Button>
+          !props.isCart && <Button sx={{width:"100%"}} variant="contained" size="small" onClick={addCartHandler}>Add To Cart</Button>
+        }
+        {
+          props.isCart && <Button sx={{width:"100%"}} variant="contained" size="small" onClick={removeCartHandler}>Remove Cart</Button>
         }
       </CardActions>
   </Card>

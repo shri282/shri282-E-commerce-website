@@ -3,7 +3,8 @@ const query = require('../databaseConnection/dbConnection.js')
 
 const postCart = async (req,res) => {
 
-    try {
+    try { 
+
         const queryData = {
             user_id : req.body.user_id
         } 
@@ -11,32 +12,32 @@ const postCart = async (req,res) => {
         const baseUrl = 'http://localhost:8080/cart/usercart';
         const queryString = new URLSearchParams(queryData).toString();
         const url = `${baseUrl}?${queryString}`;
-        const response = await fetch(url); 
-        const result = await response.json(); 
-        console.log(JSON.stringify(result));
+        const prevCart = await fetch(url); 
+        const prevCartData = await prevCart.json(); 
+        let isProductInCart = false;
         
-        if (result && result.rows) {
-            result.rows.forEach(data => {
+        if (prevCartData && prevCartData.rows) {
+            prevCartData.rows.forEach(data => {
                 if (data.prod_id === parseInt(req.body.prod_id)) {
-                    throw new Error('Product already in cart');
+                    isProductInCart = true;
+                    return;
                 }
             });
         }
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({ success: false, message: error.message });
-        return;
-    }
+        if (isProductInCart) {
+            res.status(400).send('Product already in cart');
+            return; 
+        }
 
-    try { 
        const sql = `insert into cart(user_id,prod_id) values($1,$2)`
        const params = [req.body.user_id,req.body.prod_id];
        const result = await query(sql,params);
        res.send(result);
+
     } catch (error) {
-      console.log(error);
-       res.sent(error);
+       console.log(error);
+       res.send(error);
     }
 
 }
@@ -51,12 +52,27 @@ const getUserCart = async (req,res) => {
         res.send(result);
      } catch (error) {
         console.log(error);
-        res.sent(error);
+        res.send(error);
      }
+}
+
+
+const deleteCart = async (req,res) => {
+    try {
+       const { user_id, prod_id } = req.query;
+       const sql = `delete from cart where prod_id = $1 AND user_id = $2`;
+       const params = [prod_id,user_id];
+       const result = await query(sql,params);
+       res.send(result);
+    } catch (error) {
+       console.log(error);
+       res.send(error);
+    }
 }
 
 
 module.exports.sql = {
     postCart : postCart,
-    getUserCart : getUserCart
+    getUserCart : getUserCart,
+    deleteCart : deleteCart
 }

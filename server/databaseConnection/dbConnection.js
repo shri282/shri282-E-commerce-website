@@ -11,9 +11,6 @@ const con = new pg.Pool({
 const query = (sqlQuery,params) => {
     return new Promise((resolve,reject) => {
         con.query(sqlQuery,params,(error,result) => {
-            console.log(sqlQuery);
-            console.log(params);
-            console.log("in query");
             if(error) {
                 reject(error)
                 console.log(error);

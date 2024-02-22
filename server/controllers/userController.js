@@ -7,6 +7,7 @@ const getUsers = async (req,res) => {
         const result = await query(sql,params);
         res.send(result.rows);
     } catch (error) {
+        console.log(error);
         res.send(error);
     }
 }
@@ -19,6 +20,7 @@ const postUser = async (req,res) => {
         const result = await query(sql,params);
         res.send(result);
     } catch (error) {
+        console.log(error);
         res.send(error);
     }
 }
@@ -31,6 +33,7 @@ const getByUserName = async (req,res) => {
         const result = await query(sql,params);
         res.send(result);
     } catch (error) {
+        console.log(error);
         res.send(error);
     }
 }
@@ -43,6 +46,7 @@ const updateUserCart = async (req,res) => {
         const result = await query(sql,params);
         res.send(result);
     } catch (error) {
+        console.log(error);
         res.sent(error);
     }
 }

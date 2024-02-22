@@ -25,6 +25,7 @@ Router.put('/user/updatecart',userController.sql.updateUserCart);
 
 Router.post('/cart/add', cartController.sql.postCart);
 Router.get('/cart/usercart',cartController.sql.getUserCart);
+Router.delete('/cart/delete',cartController.sql.deleteCart);
 
 module.exports = Router;
 

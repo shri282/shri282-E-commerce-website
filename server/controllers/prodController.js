@@ -7,6 +7,7 @@ const getProducts = async (req,res) => {
         const result = await query(sql,params);
         res.send(result.rows);
     } catch (error) {
+        console.log(error);
         res.send(error);
     }
 }
@@ -18,6 +19,7 @@ const getProduct = async (req,res) => {
         const result = await query(sql,params);
         res.send(result.rows);
     } catch (error) {
+        console.log(error);
         res.send(error);
     }
 }
@@ -29,6 +31,7 @@ const deleteProduct = async (req,res) => {
         const result = await query(sql,params);
         res.send(result);
     } catch (error) {
+        console.log(error);
         res.send(error);
     }
 }
@@ -41,6 +44,7 @@ const postProduct = async (req,res) => {
         const result = await query(sql,params);
         res.send(result);
     } catch (error) {
+        console.log(error);
         res.send(error);
     }
 }
@@ -53,6 +57,7 @@ const putProduct = async (req,res) => {
         const result = await query(sql,params);
         res.send(result);
     } catch (error) {
+        console.log(error);
         res.send(error);
     }
 }
@@ -84,17 +89,14 @@ const getSlideProducts = async (req,res) => {
 
 const getByProdIds = async (req,res) => {
     try {
-        console.log(req);
         const prodIds  = JSON.parse(req.query.prodIds);
         const placeHolder = prodIds.length > 0 ? prodIds.map(data => data).join(',') : "-1";
         const sql = `select * from products where prod_id IN (${placeHolder})`;
-        console.log("in server getByProdIds ", sql);
         const result = await query(sql,[]);
-        console.log(result);
         res.send(result);
     } catch (error) {
         console.log(error);
-        res.sent(error);
+        res.send(error);
     }
 }
 
@@ -103,13 +105,11 @@ const getByCategory = async (req,res) => {
     try {
         const sql = `select * from products where category ilike $1`;
         const params = [req.query.category];
-        console.log("in prod categ " ,sql, params);
         const result = await query(sql,params);
-        console.log("in prod categ " , result);
         res.send(result.rows);
     } catch (error) {
         console.log(error);
-        res.sent(error);
+        res.send(error);
     }
 }
 

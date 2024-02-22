@@ -80,7 +80,6 @@ function Body() {
 
     useEffect(() => {
       axios.get('http://localhost:8080/products/slide').then(result => {
-        console.log(result.data);
         setslideData(prevdata => {
           return {
             data : result.data.rows,
@@ -134,8 +133,7 @@ function Body() {
           <div className='cards'>
             {
               !cardData.error && cardData.data.length > 0 && getOneFromEach().map(data => {
-                console.log(data);
-                return <div className='productSlider' onClick={() => productHandler(data.category)}>
+                return <div className='productSlider' key={data.prod_id} onClick={() => productHandler(data.category)}>
                         
                     <div className='prodimg'>
                       <img src={data.image_path} alt=''></img>
