@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import '../header/header.scss'
 import { Button, Fab } from '@mui/material'
 import SelectUi from '../../ui-components/select'
@@ -6,16 +6,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 
 
-function Header(props) {
+function Header() {
 
   const [state,selectHandler] = useState("All Categories"); 
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    console.log(state);
-  },[state])
 
-  const searchRef = useRef(null);
+  const navigate = useNavigate();
 
   const accRef = useRef(null);
 
@@ -23,15 +18,11 @@ function Header(props) {
     accRef.current.style.display = accRef.current.style.display === "block" ? "none" : "block";
   }
 
-  const sentSearchData = () => {
-    props.updateData(searchRef.current.value,state);
-  }
 
   const onLogoutDropDown = () => {
     accRef.current.style.display = accRef.current.style.display === "block" ? "none" : "block";
     localStorage.clear();
-    console.log("in logout");
-    navigate('/');
+    window.location.href = '/';
   }
 
   const navStyle = ({ isActive }) => {
@@ -55,8 +46,8 @@ function Header(props) {
 
            <div className='search'>
                 <SelectUi age={state} handleChange = {(event) => selectHandler(event.target.value)}></SelectUi>
-                <input ref={searchRef} type='text' />
-                <Button variant="contained" onClick={sentSearchData}>Search</Button>
+                <input type='text' />
+                <Button variant="contained" >Search</Button>
            </div>
 
             <div className='others'>

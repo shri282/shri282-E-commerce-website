@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import Cards from '../../ui-components/cards';
+import '../../components/cart/cart.scss'
 
 function Cart() {
 
@@ -74,11 +75,11 @@ function Cart() {
 
 
         <div className='cards'>
-            {
-                !cartData.error && cartData.data.map(data => {
-                    return <Cards key={data.prod_id} cardObj = {data} isCart={true}></Cards>
-                })
-            }
+                {
+                    !cartData.error && cartData.data.map(data => {
+                        return <Cards key={data.prod_id} cardObj = {data} isCart={true}></Cards>
+                    })
+                }
         </div>
         
         

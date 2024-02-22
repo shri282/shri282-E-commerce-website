@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import './login.scss'
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 function Login() {
 
-  const location = useLocation();
 
   const [loginUser, setloginUser] = useState({
     username : '',
@@ -21,9 +20,9 @@ function Login() {
       const userFromDb = result.data.rows[0];
       console.log(userFromDb);
       if(userFromDb.password === parseInt(loginUser.password)) {
+        localStorage.clear();
         localStorage.setItem('currentUser',JSON.stringify(userFromDb));
         window.location.href = '/';
-        console.log(location.pathname);
       }else {
         alert("invalid password");
       }

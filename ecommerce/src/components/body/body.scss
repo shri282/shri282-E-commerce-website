@@ -10,7 +10,7 @@
     border: 1px solid #ccc; 
     padding: 10px;
     background-color: white;
-    margin-top: 15px;
+    margin-top: 14px;
     margin-bottom: 15px;
 }
 
@@ -23,19 +23,6 @@
    display:inline-block;
 }
 
-.slide {
-    display: flex;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: white;
-}
-
-.slidedata img {
-   width: 1210px;
-   height: 300px;
-}
-
-
 
 .prodimg {
     width: 200px;
@@ -46,7 +33,7 @@
 .productSlider {
     border: 1px solid #ccc; 
     padding: 10px;
-    margin-right: 20px;
+    margin: 10px;
 }
 
 .proddata,
@@ -62,10 +49,28 @@
 
 
 
+.slide {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: white;
+}
+
+.slidedata {
+    display: flex;
+    flex-grow: 1;
+}
+
+.slidedata img {
+    width: 100%;
+    height: 250px;
+}
+
+
 .slide button {
     width: 20pxpx;
     height: 50px;
-    margin-top: 120px;
+    margin-top: 100px;
     background-color: #04AA6D; 
     border: none;
     color: white;
