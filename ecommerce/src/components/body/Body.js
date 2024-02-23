@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function Body() {
 
     const navigate = useNavigate();
-
+    
     const [cardData,setCards] = useState({
       data : [],
       error : ''

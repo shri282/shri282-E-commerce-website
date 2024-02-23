@@ -11,7 +11,6 @@ import BuyProducts from './components/BuyProducts/BuyProducts.js';
 import ProductsPage from './components/productsPage/ProductsPage.js';
 
 function App() {
-
   
   return (
     <div className="App" >
