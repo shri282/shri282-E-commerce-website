@@ -1,28 +1,45 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import axios from 'axios';
 import '../body/body.scss';
 import { useNavigate } from 'react-router-dom';
+
+const initialState = {
+  loading : true,
+  cardData : [],
+  error : ''
+}
+
+const reducer = (prevState,action) => {
+  switch(action.type) {
+    case 'FETCH_SUCCESS' :
+      return {
+        loading : false,
+        cardData : action.payload,
+        error : ''
+      }
+    case 'FETCH_FAILURE' :
+      return {
+        loading : false,
+        cardData : [],
+        error : action.error
+      }
+    default :
+      return prevState;    
+  }
+}
 
 function Body() {
 
     const navigate = useNavigate();
     
-    const [cardData,setCards] = useState({
-      data : [],
-      error : ''
-    });
+    const [cards, setCard] = useReducer(reducer,initialState);
+    const [slide, setSlide] = useReducer(reducer,initialState);
 
     const [currentSlide, setcurrentSlide] = useState(0);
 
-    const [slideData, setslideData] = useState({
-      data : [],
-      error : ''
-    });
-
-
     const rightSlideIndexHandler = () => {
   
-        if(slideData.data.length - 1 <= currentSlide) {
+        if(slide.cardData.length - 1 <= currentSlide) {
           setcurrentSlide(0);
         }else {
           setcurrentSlide(prevdata => {
@@ -35,7 +52,7 @@ function Body() {
 
     const leftSlideIndexHandler = () => {
       if(currentSlide <= 0) {
-        setcurrentSlide(slideData.data.length - 1);
+        setcurrentSlide(slide.cardData.length - 1);
       }else {
         setcurrentSlide(prevdata => {
           return prevdata - 1;
@@ -45,9 +62,9 @@ function Body() {
 
     const getOneFromEach = () => {
       const prods = [];
-      const category = new Set(cardData.data.map(data => data.category.toLowerCase()));
+      const category = new Set(cards.cardData.map(data => data.category.toLowerCase()));
       category.forEach(cat => {
-        prods.push(cardData.data.filter(data => data.category.toLowerCase() === cat)[0]);
+        prods.push(cards.cardData.filter(data => data.category.toLowerCase() === cat)[0]);
       })
       return prods;
     }
@@ -60,19 +77,9 @@ function Body() {
     useEffect(() => {
 
         axios.get('http://localhost:8080/products').then(result => {
-              setCards(prevdata => {
-                return {
-                  ...prevdata,
-                  data : result.data
-                }
-              });
+          setCard({ type : 'FETCH_SUCCESS', payload : result.data })
          }).catch(error => {
-            setCards(prevdata => {
-              return {
-                ...prevdata,
-                error : error
-              }
-            })
+          setCard({ type : 'FETCH_FAILURE', error : error.message }) 
          })
        
     },[]);
@@ -80,19 +87,9 @@ function Body() {
 
     useEffect(() => {
       axios.get('http://localhost:8080/products/slide').then(result => {
-        setslideData(prevdata => {
-          return {
-            data : result.data.rows,
-            error : prevdata.error
-          }
-        });
+        setSlide({ type : 'FETCH_SUCCESS', payload : result.data.rows })
       }).catch(error => {
-        setslideData(prevdata => {
-          return {
-            data : prevdata.data,
-            error : error
-          }
-        });
+        setSlide({ type : 'FETCH_FAILURE', error : error.message })
       })
     },[]);
 
@@ -106,9 +103,7 @@ function Body() {
             <button onClick={leftSlideIndexHandler}>&larr;</button>
               <div className='slidedata'>
                 {
-                
-                  slideData.data.length > 0 && <img src={slideData.data[currentSlide].slide_path} alt=''></img>
-
+                  slide.cardData.length > 0 && <img src={slide.cardData[currentSlide].slide_path} alt=''></img>
                 }
               </div>
             <button onClick={rightSlideIndexHandler}>&rarr;</button>
@@ -117,11 +112,11 @@ function Body() {
 
       <div className='cards-error'> 
         {
-          !cardData.error && cardData.data.length === 0 && <h4>Loading....</h4> 
+          !cards.error && cards.cardData.length === 0 && <h4>Loading....</h4> 
         }
         
         {
-          cardData.error && <h4>{cardData.error.message}</h4>
+          cards.error && <h4>{cards.error}</h4>
         }
       </div>
 
@@ -132,7 +127,7 @@ function Body() {
           
           <div className='cards'>
             {
-              !cardData.error && cardData.data.length > 0 && getOneFromEach().map(data => {
+              !cards.error && cards.cardData.length > 0 && getOneFromEach().map(data => {
                 return <div className='productSlider' key={data.prod_id} onClick={() => productHandler(data.category)}>
                         
                     <div className='prodimg'>
