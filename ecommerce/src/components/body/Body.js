@@ -35,29 +35,15 @@ function Body() {
     const [cards, setCard] = useReducer(reducer,initialState);
     const [slide, setSlide] = useReducer(reducer,initialState);
 
-    const [currentSlide, setcurrentSlide] = useState(0);
+    const [currentSlide, setCurrentSlide] = useState(0);
 
     const rightSlideIndexHandler = () => {
-  
-        if(slide.cardData.length - 1 <= currentSlide) {
-          setcurrentSlide(0);
-        }else {
-          setcurrentSlide(prevdata => {
-            return prevdata + 1;
-          })
-        }   
-      
+      setCurrentSlide(prevSlide => (prevSlide + 1) % slide.cardData.length);
     }; 
 
 
-    const leftSlideIndexHandler = () => {
-      if(currentSlide <= 0) {
-        setcurrentSlide(slide.cardData.length - 1);
-      }else {
-        setcurrentSlide(prevdata => {
-          return prevdata - 1;
-        })
-      }  
+    const leftSlideIndexHandler = () => { 
+      setCurrentSlide(prevSlide => prevSlide === 0 ? slide.cardData.length - 1 : prevSlide - 1);
     }
 
     const getOneFromEach = () => {
@@ -94,8 +80,19 @@ function Body() {
     },[]);
 
 
+    useEffect(() => {
+      let timer;
+      if(currentSlide < slide.cardData.length) {
+        timer = setTimeout(() => {
+          rightSlideIndexHandler();
+        },2000);
+      }
+      return () => {
+        clearTimeout(timer);
+      }
+    },[currentSlide]);
 
-
+    
   return (
     <div>
 
@@ -103,7 +100,9 @@ function Body() {
             <button onClick={leftSlideIndexHandler}>&larr;</button>
               <div className='slidedata'>
                 {
-                  slide.cardData.length > 0 && <img src={slide.cardData[currentSlide].slide_path} alt=''></img>
+                  slide.cardData.length > 0 && (
+                    <img src={slide.cardData[currentSlide].slide_path} alt='' />
+                  )                
                 }
               </div>
             <button onClick={rightSlideIndexHandler}>&rarr;</button>
