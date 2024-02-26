@@ -80,12 +80,11 @@ function Body() {
 
 
     useEffect(() => {
-      let timer;
-      if(currentSlide < slide.cardData.length) {
-        timer = setTimeout(() => {
+   
+      const timer = setTimeout(() => {
           rightSlideIndexHandler();
         },2000);
-      }
+
       return () => {
         clearTimeout(timer);
       }
