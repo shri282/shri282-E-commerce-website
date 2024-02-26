@@ -32,6 +32,7 @@ function Body() {
 
     const navigate = useNavigate();
     console.log("hello");
+    console.log("hello from master");
     const [cards, setCard] = useReducer(reducer,initialState);
     const [slide, setSlide] = useReducer(reducer,initialState);
 
