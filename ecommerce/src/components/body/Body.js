@@ -31,7 +31,6 @@ const reducer = (prevState,action) => {
 function Body() {
 
     const navigate = useNavigate();
-    console.log("hello");
     const [cards, setCard] = useReducer(reducer,initialState);
     const [slide, setSlide] = useReducer(reducer,initialState);
 
