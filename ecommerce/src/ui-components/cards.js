@@ -25,6 +25,7 @@ function Cards(props) {
       user_id : JSON.parse(localStorage.getItem('currentUser')).user_id
     }).then(res => {
       alert("product successfully added to cart " +res.data);
+      window.location.reload();
     }).catch(err => {
       console.log(err);
       alert(err.response.data);

@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../header/header.scss'
 import { Button, Fab } from '@mui/material'
 import SelectUi from '../../ui-components/select'
 import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 
@@ -11,6 +12,8 @@ function Header() {
   const [state,selectHandler] = useState("All Categories"); 
 
   const navigate = useNavigate();
+
+  const [cartTotal, setCartTotal] = useState(0);
 
   const accRef = useRef(null);
 
@@ -33,8 +36,20 @@ function Header() {
   }
 
   const cartHandler = () => {
-    navigate('cart')
+    navigate('cart');
   }
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/cart/usercart',{
+            params : {
+                user_id : localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')).user_id : 0
+            }
+           }).then(result => {
+              setCartTotal(result.data.rows.length);
+           }).catch(error => {
+              console.log("something went wrong");
+           })
+  },[]);
 
   return (
     
@@ -69,10 +84,10 @@ function Header() {
                    <div>
                      <h4 className='account'>{"Hii " +JSON.parse(localStorage.getItem('currentUser')).name}</h4>
                    </div>
-                   <Fab className='acco' sx={{ m: 1, minWidth: 10,backgroundColor:"gray" }} onClick={cartHandler} color="primary" aria-label="add">
+                    <Fab className='acco' sx={{ m: 1, minWidth: 10,backgroundColor:"gray" }} onClick={cartHandler} color="primary" aria-label="add">
                       <img src='/shopping-cart.png' style={{width:"20px"}} alt=''></img>
+                      <h4 style={{ position: "absolute", top: "-18px", right: "-8px",backgroundColor:'chocolate', borderRadius: "50%", padding: "3px",height:"20px",width:"20px" }}>{cartTotal +"+"}</h4>
                     </Fab>
-
                     <div>
                         <h4 className='account'>My Cart</h4>
                         <h4>$ 0.00</h4>

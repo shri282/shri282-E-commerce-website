@@ -90,7 +90,7 @@ function Body() {
       return () => {
         clearTimeout(timer);
       }
-    },[currentSlide]);
+    },[currentSlide,slide]);
 
     
   return (
