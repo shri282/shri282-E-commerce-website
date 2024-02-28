@@ -84,7 +84,7 @@ function Body() {
    
       const timer = setTimeout(() => {
           rightSlideIndexHandler();
-        },2000);
+        },3000);
 
       return () => {
         clearTimeout(timer);

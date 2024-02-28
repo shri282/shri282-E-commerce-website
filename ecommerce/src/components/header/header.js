@@ -85,7 +85,7 @@ function Header() {
                    </div>
                     <Fab className='acco' sx={{ m: 1, minWidth: 10,backgroundColor:"gray" }} onClick={cartHandler} color="primary" aria-label="add">
                       <img src='/shopping-cart.png' style={{width:"20px"}} alt=''></img>
-                      <h4 style={{ position: "absolute", top: "-18px", right: "-8px",backgroundColor:'chocolate', borderRadius: "50%", padding: "3px",height:"20px",width:"20px" }}>{cartTotal +"+"}</h4>
+                      <h4 style={{ position: "absolute", top: "-18px", right: "-8px",backgroundColor:'chocolate', borderRadius: "50%", padding: "3px",height:"20px",width:"20px" }}>{cartTotal > 10 ? 10 +"+":cartTotal}</h4>
                     </Fab>
                     <div>
                         <h4 className='account'>My Cart</h4>
