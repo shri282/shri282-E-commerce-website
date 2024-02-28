@@ -1,8 +1,8 @@
 import React from 'react'
 import './register.scss'
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../api/axios';
 
 function Register() {
 
@@ -26,7 +26,7 @@ function Register() {
   } 
 
   const submitHandler = (event) => {
-    axios.post('http://localhost:8080/user',user).then(result => {
+    axios.post('/user',user).then(result => {
 
       alert("registered");
       const contextUser = {

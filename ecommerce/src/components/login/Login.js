@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './login.scss'
 import { NavLink } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../api/axios';
 
 function Login() {
 
@@ -13,7 +13,7 @@ function Login() {
 
   const loginHandler = () => {
 
-    axios.get('http://localhost:8080/user/getbyusername',{
+    axios.get('/user/getbyusername',{
       params : { username : loginUser.username }
     }).then(result => {
       console.log(JSON.stringify(loginUser));  

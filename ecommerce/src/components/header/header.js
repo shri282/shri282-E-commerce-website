@@ -3,8 +3,7 @@ import '../header/header.scss'
 import { Button, Fab } from '@mui/material'
 import SelectUi from '../../ui-components/select'
 import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import axios from '../../api/axios'
 
 
 function Header() {
@@ -40,7 +39,7 @@ function Header() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:8080/cart/usercart',{
+    axios.get('/cart/usercart',{
             params : {
                 user_id : localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')).user_id : 0
             }

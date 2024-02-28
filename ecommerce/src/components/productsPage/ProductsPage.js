@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Cards from '../../ui-components/cards';
-import axios from 'axios';
+import axios from '../../api/axios';
 
 function ProductsPage() {
     const {category} = useParams();
@@ -14,7 +14,7 @@ function ProductsPage() {
 
     useEffect(() => {
 
-        axios.get('http://localhost:8080/products/getbycategory',{
+        axios.get('/products/getbycategory',{
             params : {
                 category : category
             }

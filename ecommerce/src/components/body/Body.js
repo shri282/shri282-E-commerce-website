@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer, useState } from 'react'
-import axios from 'axios';
 import '../body/body.scss';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../api/axios'
+
 
 const initialState = {
   loading : true,
@@ -61,7 +62,7 @@ function Body() {
 
     useEffect(() => {
 
-        axios.get('http://localhost:8080/products').then(result => {
+        axios.get('/products').then(result => {
           setCard({ type : 'FETCH_SUCCESS', payload : result.data })
          }).catch(error => {
           setCard({ type : 'FETCH_FAILURE', error : error.message }) 
@@ -71,7 +72,7 @@ function Body() {
 
 
     useEffect(() => {
-      axios.get('http://localhost:8080/products/slide').then(result => {
+      axios.get('/products/slide').then(result => {
         setSlide({ type : 'FETCH_SUCCESS', payload : result.data.rows })
       }).catch(error => {
         setSlide({ type : 'FETCH_FAILURE', error : error.message })

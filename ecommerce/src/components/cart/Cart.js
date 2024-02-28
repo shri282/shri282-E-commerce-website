@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import axios from 'axios';
 import Cards from '../../ui-components/cards';
-import '../../components/cart/cart.scss'
+import '../../components/cart/cart.scss';
+import axios from '../../api/axios'
 
 function Cart() {
 
@@ -15,14 +15,14 @@ function Cart() {
        console.log(" in useeffect of cart");
 
 
-        axios.get('http://localhost:8080/cart/usercart',{
+        axios.get('/cart/usercart',{
             params : {
                 user_id : JSON.parse(localStorage.getItem('currentUser')).user_id
             }
            }).then(async result => {
                console.log(result);
                const prodIds = result.data.rows.map(data => data.prod_id); 
-               axios.get('http://localhost:8080/products/getbyids',{
+               axios.get('/products/getbyids',{
                     params : {
                         prodIds : JSON.stringify(prodIds)
                     }
