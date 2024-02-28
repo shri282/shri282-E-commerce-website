@@ -1,5 +1,8 @@
 const query = require('../databaseConnection/dbConnection.js')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const secretKey = '3vf3fdmkmiekfmzkwo3pk4okm32kn3n42knk';
+
 
 const getUsers = async (req,res) => {
     try {
@@ -25,7 +28,9 @@ const postUser = async (req,res) => {
         const getUserSql = `select * from users where username = $1 limit 1`;
         const userData = await query(getUserSql,[username]);
         const user = userData.rows[0];
-        return res.status(201).json({'message' : 'user registered successfully','user' : user});
+        const accessToken = jwt.sign({ userId: user.user_id }, secretKey, { expiresIn: '30m' });
+        const refreshToken = jwt.sign({ userId: user.user_id }, secretKey, { expiresIn: '7d' });
+        return res.status(201).json({'message' : 'user registered successfully','user' : user, 'accessToken' : accessToken, 'refreshToken': refreshToken});
     } catch (error) {
         console.log(error);
         res.send(error);
@@ -58,7 +63,10 @@ const loginUser = async (req,res) => {
         }else {
             const isPasswordValid = await bcrypt.compare(password,result.rows[0].password);
             if(isPasswordValid) {
-                return res.status(200).json({'message' : 'user login successfull','user' : result.rows[0]});
+                const userFromDb = result.rows[0];
+                const accessToken = jwt.sign({ userId: userFromDb.user_id }, secretKey, { expiresIn: '30m' });
+                const refreshToken = jwt.sign({ userId: userFromDb.user_id }, secretKey, { expiresIn: '7d' });
+                return res.status(200).json({'message' : 'user login successfull','user' : result.rows[0],'accessToken' : accessToken,'refreshToken': refreshToken});
             }else {
                 return res.status(401).json({'message' : 'password was not valid'});
             }

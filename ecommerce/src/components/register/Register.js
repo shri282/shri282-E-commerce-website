@@ -29,6 +29,8 @@ function Register() {
     axios.post('/user',user).then(result => {
       alert("registered");
       localStorage.setItem("currentUser",JSON.stringify(result.data.user));
+      console.log(result.data.accessToken);
+      localStorage.setItem("auth",result.data.accessToken);
       console.log("in register",JSON.stringify(result.data.user));
       navigate('/');
     }).catch(error => {

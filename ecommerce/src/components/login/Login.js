@@ -19,6 +19,7 @@ function Login() {
       console.log(JSON.stringify(loginUser));  
       localStorage.clear();
       localStorage.setItem('currentUser',JSON.stringify(result.data.user));
+      localStorage.setItem('auth',result.data.accessToken);
       alert(result.data.message);
       window.location.href = '/';
     }).catch(error => {

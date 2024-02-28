@@ -62,10 +62,11 @@ function Body() {
 
     useEffect(() => {
 
-        axios.get('/products').then(result => {
+        axios.get('/products',{ headers : { Authorization : 'Bearer '+localStorage.getItem('auth') } }).then(result => {
           setCard({ type : 'FETCH_SUCCESS', payload : result.data })
          }).catch(error => {
-          setCard({ type : 'FETCH_FAILURE', error : error.message }) 
+          console.log(error);
+          setCard({ type : 'FETCH_FAILURE', error : error.response.data.message }) 
          })
        
     },[]);
@@ -108,19 +109,19 @@ function Body() {
       </div>
 
 
-      <div className='cards-error'> 
-        {
-          !cards.error && cards.cardData.length === 0 && <h4>Loading....</h4> 
-        }
-        
-        {
-          cards.error && <h4>{cards.error}</h4>
-        }
-      </div>
-
       <div className='card-continer'>
           <div className='card-header'>
             <h2>Categories</h2>
+          </div>
+
+          <div className='cards-error'> 
+            {
+              !cards.error && cards.cardData.length === 0 && <h4>Loading....</h4> 
+            }
+            
+            {
+              cards.error && <h4>{cards.error}</h4>
+            }
           </div>
           
           <div className='cards'>
