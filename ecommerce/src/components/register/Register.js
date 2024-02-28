@@ -27,16 +27,10 @@ function Register() {
 
   const submitHandler = (event) => {
     axios.post('/user',user).then(result => {
-
       alert("registered");
-      const contextUser = {
-        name : user.name,
-        password : user.password
-      };
-      localStorage.setItem("currentUser",JSON.stringify(contextUser));
-      console.log("in register",JSON.stringify(contextUser));
+      localStorage.setItem("currentUser",JSON.stringify(result.data.user));
+      console.log("in register",JSON.stringify(result.data.user));
       navigate('/');
-
     }).catch(error => {
       alert(error);  
     });

@@ -20,6 +20,7 @@ Router.get('/users', userController.sql.getUsers);
 Router.post('/user', userController.sql.postUser);
 Router.get('/user/getbyusername',userController.sql.getByUserName);
 Router.put('/user/updatecart',userController.sql.updateUserCart);
+Router.get('/user/login',userController.sql.loginUser);
 
 // cart
 

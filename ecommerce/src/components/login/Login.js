@@ -13,21 +13,16 @@ function Login() {
 
   const loginHandler = () => {
 
-    axios.get('/user/getbyusername',{
-      params : { username : loginUser.username }
+    axios.get('/user/login',{
+      params : { user : loginUser.username, password : loginUser.password }
     }).then(result => {
       console.log(JSON.stringify(loginUser));  
-      const userFromDb = result.data.rows[0];
-      console.log(userFromDb);
-      if(userFromDb.password === parseInt(loginUser.password)) {
-        localStorage.clear();
-        localStorage.setItem('currentUser',JSON.stringify(userFromDb));
-        window.location.href = '/';
-      }else {
-        alert("invalid password");
-      }
+      localStorage.clear();
+      localStorage.setItem('currentUser',JSON.stringify(result.data.user));
+      alert(result.data.message);
+      window.location.href = '/';
     }).catch(error => {
-      alert(error.message);
+      alert(error.response.data.message);
     })
 
   }

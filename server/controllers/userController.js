@@ -1,4 +1,5 @@
 const query = require('../databaseConnection/dbConnection.js')
+const bcrypt = require('bcrypt');
 
 const getUsers = async (req,res) => {
     try {
@@ -16,9 +17,15 @@ const getUsers = async (req,res) => {
 const postUser = async (req,res) => {
     try {
         const sql = "insert into users(name,username,email,password) values($1,$2,$3,$4)";
-        const params = [req.body.name,req.body.username,req.body.email,req.body.password];
+        const { name, username, email, password} = req.body;
+        const hashedPassword = await bcrypt.hash(password,10);
+        console.log(hashedPassword);
+        const params = [name, username, email, hashedPassword];
         const result = await query(sql,params);
-        res.send(result);
+        const getUserSql = `select * from users where username = $1 limit 1`;
+        const userData = await query(getUserSql,[username]);
+        const user = userData.rows[0];
+        return res.status(201).json({'message' : 'user registered successfully','user' : user});
     } catch (error) {
         console.log(error);
         res.send(error);
@@ -35,6 +42,29 @@ const getByUserName = async (req,res) => {
     } catch (error) {
         console.log(error);
         res.send(error);
+    }
+}
+
+
+const loginUser = async (req,res) => {
+    try {
+        console.log("in login");
+        const {user, password} = req.query;
+        const sql = `select * from users where username = $1 limit 1`;
+        const params = [user];
+        const result = await query(sql,params);
+        if(result.rows.length === 0) {
+            return res.status(401).json({'message' : 'user not found'});
+        }else {
+            const isPasswordValid = await bcrypt.compare(password,result.rows[0].password);
+            if(isPasswordValid) {
+                return res.status(200).json({'message' : 'user login successfull','user' : result.rows[0]});
+            }else {
+                return res.status(401).json({'message' : 'password was not valid'});
+            }
+        }
+    } catch (error) {
+        return res.status(500).json({'message' : 'internal server error'});
     }
 }
 
@@ -59,5 +89,6 @@ module.exports.sql = {
     postUser : postUser,
     getByUserName : getByUserName,
     updateUserCart : updateUserCart,
+    loginUser : loginUser
 }
 
