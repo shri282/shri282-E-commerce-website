@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import '../body/body.scss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from '../../api/axios'
 
 
@@ -29,9 +29,10 @@ const reducer = (prevState,action) => {
   }
 }
 
-function Body() {
+function Body(props) {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const [cards, setCard] = useReducer(reducer,initialState);
     const [slide, setSlide] = useReducer(reducer,initialState);
 
@@ -57,7 +58,9 @@ function Body() {
 
 
     const productHandler = (Category) => {
-      localStorage.getItem('currentUser') ? navigate('productspage/'+Category) : navigate('/login');
+      localStorage.getItem('currentUser') ? navigate('productspage/'+Category) : navigate('/login',{
+        state : { key : 'productspage/'+Category }
+      });
     }
 
     useEffect(() => {

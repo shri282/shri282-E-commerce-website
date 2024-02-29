@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import './login.scss'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import axios from '../../api/axios';
 
-function Login() {
+function Login(props) {
 
-
+  const location = useLocation();
   const [loginUser, setloginUser] = useState({
     username : '',
     password : null
@@ -21,7 +21,8 @@ function Login() {
       localStorage.setItem('currentUser',JSON.stringify(result.data.user));
       localStorage.setItem('auth',result.data.accessToken);
       alert(result.data.message);
-      window.location.href = '/';
+      const redirect = location.state?.key || '/';
+      window.location.href = redirect;
     }).catch(error => {
       alert(error.response.data.message);
     })

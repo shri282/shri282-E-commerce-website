@@ -5,7 +5,7 @@ const userController = require('../controllers/userController.js');
 const cartController = require('../controllers/cartController.js');
 const verifyToken = require('../jwt/verifyToken.js'); 
 
-Router.get('/products', verifyToken, prodController.sql.getProducts);
+Router.get('/products', prodController.sql.getProducts);
 Router.get('/product', prodController.sql.getProduct);
 Router.post('/product', prodController.sql.postProduct);
 Router.put('/product', prodController.sql.putProduct);
