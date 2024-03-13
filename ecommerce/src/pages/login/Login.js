@@ -11,8 +11,8 @@ function Login(props) {
     password : null
   })
 
-  const loginHandler = () => {
-
+  const loginHandler = (event) => {
+    event.preventDefault();
     axios.get('/user/login',{
       params : { user : loginUser.username, password : loginUser.password }
     }).then(result => {

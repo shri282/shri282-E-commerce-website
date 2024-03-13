@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import "../body/body.scss";
+import "./body.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 
@@ -76,7 +76,7 @@ function Body(props) {
       })
       .catch((error) => {
         console.log(error);
-        setCard({ type: "FETCH_FAILURE", error: error.response.data.message });
+        setCard({ type: "FETCH_FAILURE", error: error?.response?.data.message ?? error.message });
       });
 
     axios
