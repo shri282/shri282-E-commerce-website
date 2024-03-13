@@ -43,7 +43,7 @@ function Login(props) {
       <div className='login'>
         <div className="login-container">
           <h2>Login</h2>
-          <form>
+            <form>
               <input type="text" placeholder="Username" onChange={loginInputHandler} id='username' required/>
               <input type="password" placeholder="Password" onChange={loginInputHandler} id='password' required/>
               <NavLink className={"navlink"}>Forgot Password?</NavLink>
