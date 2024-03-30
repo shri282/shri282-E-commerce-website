@@ -71,7 +71,7 @@ const deleteCart = async (req,res) => {
 }
 
 
-module.exports.sql = {
+module.exports = {
     postCart : postCart,
     getUserCart : getUserCart,
     deleteCart : deleteCart

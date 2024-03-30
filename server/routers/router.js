@@ -1,33 +1,36 @@
-const express = require('express');
+const express = require("express");
 const Router = express.Router();
-const prodController = require('../controllers/prodController.js')
-const userController = require('../controllers/userController.js');
-const cartController = require('../controllers/cartController.js');
-const verifyToken = require('../jwt/verifyToken.js'); 
+const prodHandler = require("../controllers/prodController.js");
+const userHandler = require("../controllers/userController.js");
+const cartHandler = require("../controllers/cartController.js");
+const verifyToken = require("../jwt/verifyToken.js");
+const { API } = require("../common/constants.js");
 
-Router.get('/products', prodController.sql.getProducts);
-Router.get('/product', prodController.sql.getProduct);
-Router.post('/product', prodController.sql.postProduct);
-Router.put('/product', prodController.sql.putProduct);
-Router.delete('/product', prodController.sql.deleteProduct);
-Router.get('/products/getbyquery',prodController.sql.getProductsByQuery);
-Router.get('/products/slide',prodController.sql.getSlideProducts);
-Router.get('/products/getbyids',prodController.sql.getByProdIds);
-Router.get('/products/getbycategory',prodController.sql.getByCategory);
+
+// product
+
+Router.get(API.GET_PRODUCTS, prodHandler.getProducts);
+Router.get(API.GET_PRODUCT, prodHandler.getProduct);
+Router.post(API.ADD_PRODUCT, prodHandler.postProduct);
+Router.put(API.UPDATE_PRODUCT, prodHandler.putProduct);
+Router.delete(API.DELETE_PRODUCT, prodHandler.deleteProduct);
+Router.get(API.PRODUCT_BY_CATEGORIES, prodHandler.getProductsByCatagory);
+Router.get(API.PRODUCT_SLIDE, prodHandler.getSlideProducts);
+Router.get(API.PRODUCT_BY_IDS, prodHandler.getByProdIds);
+Router.get(API.PRODUCT_BY_CATEGORY, prodHandler.getByCategory);
 
 // user
 
-Router.get('/users', userController.sql.getUsers);
-Router.post('/user', userController.sql.postUser);
-Router.get('/user/getbyusername',userController.sql.getByUserName);
-Router.put('/user/updatecart',userController.sql.updateUserCart);
-Router.get('/user/login',userController.sql.loginUser);
+Router.get(API.GET_USERS, userHandler.getUsers);
+Router.post(API.ADD_USER, userHandler.postUser);
+Router.get(API.GET_USER_BY_USERNAME, userHandler.getByUserName);
+Router.put(API.UPDATE_CART, userHandler.updateUserCart);
+Router.get(API.LOGIN_USER, userHandler.loginUser);
 
 // cart
 
-Router.post('/cart/add', cartController.sql.postCart);
-Router.get('/cart/usercart',cartController.sql.getUserCart);
-Router.delete('/cart/delete',cartController.sql.deleteCart);
+Router.post(API.ADD_CART, cartHandler.postCart);
+Router.get(API.GET_CART, cartHandler.getUserCart);
+Router.delete(API.DELETE_CART, cartHandler.deleteCart);
 
 module.exports = Router;
-

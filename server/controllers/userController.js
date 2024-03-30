@@ -92,7 +92,7 @@ const updateUserCart = async (req,res) => {
 
 
 
-module.exports.sql = {
+module.exports = {
     getUsers : getUsers,
     postUser : postUser,
     getByUserName : getByUserName,

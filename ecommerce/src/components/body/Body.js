@@ -5,7 +5,7 @@ import axios from "../../api/axios";
 
 const initialState = {
   loading: true,
-  cardData: [],
+  productsData: [],
   error: "",
 };
 
@@ -14,13 +14,13 @@ const reducer = (prevState, action) => {
     case "FETCH_SUCCESS":
       return {
         loading: false,
-        cardData: action.payload,
+        productsData: action.payload,
         error: "",
       };
     case "FETCH_FAILURE":
       return {
         loading: false,
-        cardData: [],
+        productsData: [],
         error: action.error,
       };
     default:
@@ -30,29 +30,29 @@ const reducer = (prevState, action) => {
 
 function Body(props) {
   const navigate = useNavigate();
-  const [cards, setCard] = useReducer(reducer, initialState);
+  const [products, setCard] = useReducer(reducer, initialState);
   const [slide, setSlide] = useReducer(reducer, initialState);
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const rightSlideIndexHandler = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % slide.cardData.length);
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % slide.productsData.length);
   };
 
   const leftSlideIndexHandler = () => {
     setCurrentSlide((prevSlide) =>
-      prevSlide === 0 ? slide.cardData.length - 1 : prevSlide - 1
+      prevSlide === 0 ? slide.productsData.length - 1 : prevSlide - 1
     );
   };
 
   const getOneFromEach = () => {
     const prods = [];
     const category = new Set(
-      cards.cardData.map((data) => data.category.toLowerCase())
+      products.productsData.map((data) => data.category.toLowerCase())
     );
     category.forEach((cat) => {
       prods.push(
-        cards.cardData.filter((data) => data.category.toLowerCase() === cat)[0]
+        products.productsData.filter((data) => data.category.toLowerCase() === cat)[0]
       );
     });
     return prods;
@@ -104,8 +104,8 @@ function Body(props) {
       <div className="slide">
         <button onClick={leftSlideIndexHandler}>&larr;</button>
         <div className="slidedata">
-          {slide.cardData.length > 0 && (
-            <img src={slide.cardData[currentSlide].slide_path} alt="" />
+          {slide.productsData.length > 0 && (
+            <img src={slide.productsData[currentSlide].slide_path} alt="" />
           )}
         </div>
         <button onClick={rightSlideIndexHandler}>&rarr;</button>
@@ -117,14 +117,14 @@ function Body(props) {
         </div>
 
         <div className="cards-error">
-          {!cards.error && cards.cardData.length === 0 && <h4>Loading....</h4>}
+          {!products.error && products.productsData.length === 0 && <h4>Loading....</h4>}
 
-          {cards.error && <h4>{cards.error}</h4>}
+          {products.error && <h4>{products.error}</h4>}
         </div>
 
         <div className="cards">
-          {!cards.error &&
-            cards.cardData.length > 0 &&
+          {!products.error &&
+            products.productsData.length > 0 &&
             getOneFromEach().map((data) => {
               return (
                 <div
